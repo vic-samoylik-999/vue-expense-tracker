@@ -6,6 +6,7 @@ import TransactionList from './components/TransactionList.vue';
 import AddTransaction from './components/AddTransaction.vue';
 import { ref, computed } from 'vue';
 
+// Dummy data
 const transactions = ref([
   { id: 1, text: "Flower", amount: -20.00 },
   { id: 2, text: "Paycheck", amount: 1120.00 },
@@ -14,10 +15,27 @@ const transactions = ref([
   { id: 5, text: "Shoes", amount: -20.00 },
 ])
 
+// Get total
 const total = computed(() => {
   return transactions.value.reduce((acc, item) => {
     return acc + item.amount;
   }, 0)
+})
+
+// Get income
+const income = computed(() => {
+  return transactions.value.filter(item => item.amount > 0)
+    .reduce((acc, item) => {
+      return acc + item.amount
+    }, 0)
+})
+
+// Get expenses
+const expenses = computed(() => {
+  return transactions.value.filter(item => item.amount <= 0)
+    .reduce((acc, item) => {
+      return acc + item.amount
+    }, 0)
 })
 </script>
 
@@ -25,7 +43,7 @@ const total = computed(() => {
   <Header />
   <div class="container">
     <Balance :total="total" />
-    <IncomeExpenses />
+    <IncomeExpenses :income="income" :expenses="expenses" />
     <TransactionList :transactions="transactions" />
     <AddTransaction />
   </div>
