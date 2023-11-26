@@ -26,8 +26,6 @@ const onSubmit = () => {
         amount: amount.value
     }
     emit('transactionSubmitted', transactionData)
-
-
     text.value = ''
     amount.value = ''
 }
