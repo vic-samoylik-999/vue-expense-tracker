@@ -43,6 +43,16 @@ const expenses = computed(() => {
     }, 0)
     .toFixed(2)
 })
+
+const handleTransactionSubmitted = (transactionData) => {
+  console.log(transactionData)
+  transactions.value.push({
+    id: transactions.value.length + 1,
+    text: transactionData.text,
+    amount: transactionData.amount,
+  })
+  console.log(transactions.value)
+}
 </script>
 
 <template>
@@ -51,7 +61,7 @@ const expenses = computed(() => {
     <Balance :total="total" />
     <IncomeExpenses :income="+income" :expenses="+expenses" />
     <TransactionList :transactions="transactions" />
-    <AddTransaction :transactions="transactions" />
+    <AddTransaction @transactionSubmitted="handleTransactionSubmitted" />
   </div>
 </template>
 

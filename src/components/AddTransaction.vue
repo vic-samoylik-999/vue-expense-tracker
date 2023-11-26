@@ -3,6 +3,7 @@ import { defineProps, ref } from 'vue';
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
+const emit = defineEmits(['transactionSubmitted'])
 
 const props = defineProps({
     transactions: {
@@ -15,13 +16,20 @@ const text = ref('')
 const amount = ref('')
 
 const onSubmit = () => {
-    if (text.value && amount.value) {
-        toast.success(`Success! You added ${text.value}: ${amount.value}`)
-        text.value = ''
-        amount.value = ''
-    } else {
-        toast.error('Both field must be fullfiled...')
+    if (!text.value || !amount.value) {
+        toast.error('Both fields must be filled...')
+        return
     }
+    toast.success(`Success! You added ${text.value}: ${amount.value}`)
+    const transactionData = {
+        text: text.value,
+        amount: amount.value
+    }
+    emit('transactionSubmitted', transactionData)
+
+
+    text.value = ''
+    amount.value = ''
 }
 </script>
 
